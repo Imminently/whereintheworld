@@ -1,0 +1,40 @@
+project_id = "where-in-the-world"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["https://localhost:5173"]
+enable_signup = false
+enable_anonymous_sign_ins = false
+
+[storage]
+enabled = true
+file_size_limit = "15MiB"
+
+[functions.lookup-game]
+verify_jwt = false
+
+[functions.join-game]
+verify_jwt = false
+
+[functions.submit-guess]
+verify_jwt = false
+
+[functions.host-command]
+verify_jwt = true
+
+[functions.get-round-photo]
+verify_jwt = false
+
+[functions.get-player-state]
+verify_jwt = false
+
+[functions.cleanup-game]
+verify_jwt = true
