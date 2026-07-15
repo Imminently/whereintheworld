@@ -70,6 +70,13 @@ describe("mock game", () => {
     ).toMatchObject({ scored: false, distanceKm: null });
   });
 
+  it("includes the deployment base path in mock photo URLs", () => {
+    const state = createMockPlayerSession(createMockLookupResult().members[0].id).state;
+
+    expect(getMockPhotoUrl(state.rounds[0].id, "/whereintheworld/"))
+      .toBe("/whereintheworld/mock/mei-taipei.webp");
+  });
+
   it("resets a finished demo to a clean lobby", () => {
     const lookup = createMockLookupResult();
     let state = createMockPlayerSession(lookup.members[0].id).state;

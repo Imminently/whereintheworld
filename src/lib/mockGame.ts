@@ -88,10 +88,10 @@ const MOCK_ANSWERS: Record<string, RoundAnswer> = {
   },
 };
 
-const MOCK_PHOTO_URLS: Record<string, string> = {
-  [MOCK_ROUNDS[0].id]: "/mock/mei-taipei.webp",
-  [MOCK_ROUNDS[1].id]: "/mock/marcus-valparaiso.webp",
-  [MOCK_ROUNDS[2].id]: "/mock/sophie-amsterdam.webp",
+const MOCK_PHOTO_PATHS: Record<string, string> = {
+  [MOCK_ROUNDS[0].id]: "mock/mei-taipei.webp",
+  [MOCK_ROUNDS[1].id]: "mock/marcus-valparaiso.webp",
+  [MOCK_ROUNDS[2].id]: "mock/sophie-amsterdam.webp",
 };
 
 const SIMULATED_DISTANCES_KM = [
@@ -211,9 +211,18 @@ export function createMockPlayerSession(memberId: string): {
   };
 }
 
-/** Returns the project-local fictional photo for a demo round. */
-export function getMockPhotoUrl(roundId: string): string | null {
-  return MOCK_PHOTO_URLS[roundId] ?? null;
+/** Returns the deployment-relative fictional photo URL for a demo round. */
+export function getMockPhotoUrl(
+  roundId: string,
+  baseUrl: string = import.meta.env.BASE_URL,
+): string | null {
+  const photoPath = MOCK_PHOTO_PATHS[roundId];
+  if (photoPath === undefined) {
+    return null;
+  }
+
+  const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+  return `${normalizedBaseUrl}${photoPath}`;
 }
 
 /** Starts the first/next round, finishes the demo, or resets it based on phase. */
